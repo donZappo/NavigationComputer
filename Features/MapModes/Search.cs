@@ -93,13 +93,22 @@ namespace NavigationComputer.Features.MapModes
 
         private bool DoesFactionMatchSearch(string factionID, string search)
         {
-            var def = FactionDef.GetFactionDefByEnum(UnityGameInstance.BattleTechGame.DataManager, factionID);
-            var name = def.Name.ToLower();
-            var shortName = def.ShortName.ToLower();
+            Main.HBSLog.Log(factionID);
+            try
+            {
+                var def = FactionDef.GetFactionDefByEnum(UnityGameInstance.BattleTechGame.DataManager, factionID);
 
-            // TODO: "the" thing is a hack, tbh
-            return name.StartsWith(search) || shortName.StartsWith(search) || name.StartsWith("the " + search) ||
-                   shortName.StartsWith("the " + search);
+                var name = def.Name.ToLower();
+                var shortName = def.ShortName.ToLower();
+
+                // TODO: "the" thing is a hack, tbh
+                return name.StartsWith(search) || shortName.StartsWith(search) || name.StartsWith("the " + search) ||
+                        shortName.StartsWith("the " + search);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool DoesTagMatchSearch(string tagID, string search)
